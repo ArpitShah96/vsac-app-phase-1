@@ -1,7 +1,7 @@
 const { oauth2Client, SCOPES } = require("../config/googleAuth");
 const { google } = require("googleapis");
 const InterestedUser = require("../models/InterestedUser");
-const generateSlots = require("../data/availableSlots");
+const generateSlots = require("../data/availableSlots").default;
 
 // Initialize Google Calendar API
 const calendar = google.calendar({ version: 'v3', auth: oauth2Client });

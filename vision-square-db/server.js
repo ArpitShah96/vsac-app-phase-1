@@ -36,12 +36,12 @@ mongoose
   .catch((err) => console.error("MongoDB connection error:", err));
 
 // Routes
+app.use("/api/contact", require("./routes/contactFormRoutes"));
+app.use("/api/book", require("./routes/bookingRoutes"));
 
 app.use("/", (req, res) => {
   res.send("Welcome to the Vision Square API!");
 });
-app.use("/api/contact", require("./routes/contactFormRoutes"));
-app.use("/api/book", require("./routes/bookingRoutes"));
 
 // OAuth Routes
 // Step 1: Redirect user to Google OAuth consent screen

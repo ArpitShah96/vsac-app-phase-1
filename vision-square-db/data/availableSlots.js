@@ -4,32 +4,28 @@ const generateSlots = (days = 7) => {
 
   const today = new Date();
 
-  // Time zone difference (India Standard Time - Central European Time)
-  const timeZoneOffset = 3.5 * 60 * 60 * 1000; // 3.5 hours in milliseconds
-
-  for (let i = 0; i < days; i++) {
+  for (let i = 1; i <= days; i++) { // Start from tomorrow (i=1)
     const date = new Date(today);
-    date.setDate(today.getDate() + i);
+    date.setDate(today.getDate() + i); // i days ahead
 
-    // Convert date to CET (Germany Time) from the server's local time (India Time)
-    const cetDate = new Date(date.getTime() - timeZoneOffset); 
+    // Set timezone explicitly to IST (India Standard Time)
+    const istOffset = 5.5 * 60 * 60 * 1000; // 5.5 hours in milliseconds
+    const istDate = new Date(date.getTime() + istOffset);
 
-    // Skip Sundays
-    if (cetDate.getDay() === 0) {
+    // Skip Sundays (still based on IST date)
+    if (istDate.getDay() === 0) {
       continue; // Skip Sunday
     }
 
-    const yyyy = cetDate.getFullYear();
-    const mm = String(cetDate.getMonth() + 1).padStart(2, "0");
-    const dd = String(cetDate.getDate()).padStart(2, "0");
+    const yyyy = istDate.getFullYear();
+    const mm = String(istDate.getMonth() + 1).padStart(2, "0");
+    const dd = String(istDate.getDate()).padStart(2, "0");
 
     const datePart = `${yyyy}-${mm}-${dd}`;
 
     slotsPerDay.forEach((time) => {
-      // Generate time slots based on CET (adjusted for server time)
-      const slotDate = new Date(`${datePart}T${time}`);
-      // Push slot with CET time format
-      slots.push(slotDate.toISOString());
+      const slotDate = new Date(`${datePart}T${time}:00.000+05:30`); // IST fixed
+      slots.push(slotDate.toISOString()); // Store slots as ISO (good for database)
     });
   }
 
