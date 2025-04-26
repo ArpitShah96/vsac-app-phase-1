@@ -35,7 +35,7 @@ const BookingModal = ({ isOpen, onClose, onSubmitBooking }) => {
   const fetchSlots = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("/api/book/slots");
+      const res = await axios.get("https://vsac-app-backend.vercel.app/api/book/slots");
       setSlots(res.data.available || []);
     } catch (err) {
       console.error("❌ Failed to fetch slots:", err);
