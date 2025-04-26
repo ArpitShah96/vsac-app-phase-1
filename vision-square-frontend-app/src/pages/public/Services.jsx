@@ -61,7 +61,7 @@ const Services = () => {
     console.log("📥 Received booking data:", bookingData);
     try {
       const response = await fetch(
-        "https://vision-square-server.vercel.app/api/book",
+        "https://vsac-app-backend.vercel.app/api/book",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

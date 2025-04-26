@@ -17,7 +17,7 @@ const ContactForm = () => {
   const onSubmit = async (data) => {
     try {
       // Send data to backend
-      const response = await axios.post("https://vision-square-server.vercel.app/api/contact", data);
+      const response = await axios.post("https://vsac-app-backend.vercel.app/api/contact", data);
   
       // Handle successful response
       if (response.status === 201) { // Adjusted to correct status code
