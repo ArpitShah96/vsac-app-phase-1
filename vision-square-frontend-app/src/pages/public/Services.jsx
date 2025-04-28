@@ -6,7 +6,7 @@ import touristVisaImage from "../../assets/images/TouristVisa.jpg";
 import educationVisaImage from "../../assets/images/EducationVisa.jpg";
 import familyReunionVisaImage from "../../assets/images/FamilyReunionVisa.jpg";
 import jobSeekerVisaImage from "../../assets/images/JobSearchVisa.jpg";
-import abroadSettlementImage from "../../assets/images/AbroadSettlementVisa.jpg";
+import abroadSettlementImage from "../../assets/images/AbroadSettelmentVisa.jpg";
 
 const services = [
   {
