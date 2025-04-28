@@ -44,7 +44,7 @@ const ContactDetails = () => {
         <p className="flex items-center">
           <LuMessageCircle className="text-green-600 mr-2" />
           <a
-            href="https://wa.me/919876543210"
+            href="https://wa.me/919168514499"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-green-700 transition"
