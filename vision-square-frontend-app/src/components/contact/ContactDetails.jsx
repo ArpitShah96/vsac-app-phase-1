@@ -34,7 +34,7 @@ const ContactDetails = () => {
         <p className="flex items-center">
           <LuPhone className="text-blue-950 mr-2" />
           <a
-            href="tel:+919876543210"
+            href="tel:+919700811333"
             className="hover:text-blue-600 transition"
           >
             +91 97008 11333 (Mobile)

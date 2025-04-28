@@ -5,10 +5,10 @@ import ThankYouModal from "../../components/booking/ThankYouModal";
 
 // Sample images
 import touristVisaImage from "../../assets/images/TouristVisa.jpg";
-import educationVisaImage from "../../assets/images/TouristVisa.jpg";
-import familyReunionVisaImage from "../../assets/images/TouristVisa.jpg";
-import jobSeekerVisaImage from "../../assets/images/TouristVisa.jpg";
-import abroadSettlementImage from "../../assets/images/TouristVisa.jpg";
+import educationVisaImage from "../../assets/images/EducationVisa.jpg";
+import familyReunionVisaImage from "../../assets/images/FamilyReunionVisa.jpg";
+import jobSeekerVisaImage from "../../assets/images/JobSearchVisa.jpg";
+import abroadSettlementImage from "../../assets/images/AbroadSettlementVisa.jpg";
 
 const Services = () => {
   // State to control booking modal visibility
