@@ -1,5 +1,5 @@
 import React from "react";
-import ServiceCard from "../../components/common/ServiceCard";
+import ServiceCard from "../../components/services/ServiceCard";
 
 // ✅ Correct Imports from public → assets
 import touristVisaImage from "../../assets/images/TouristVisa.jpg";
