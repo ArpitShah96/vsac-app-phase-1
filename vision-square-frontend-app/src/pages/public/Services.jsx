@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ServiceCard from "../../components/services/ServiceCard";
-import BookingModal from "../../components/booking/BookingModal"; // ✅ Adjust path if needed
+import BookingModal from "../../components/booking/BookingModal";
 
 // ✅ Correct Imports from public → assets
 import touristVisaImage from "../../assets/images/TouristVisa.jpg";

@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SlotGrid from "./SlotGrid";
 
-// ✅ Validation Schema using Yup
+// ✅ Validation Schema
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -20,9 +20,10 @@ const schema = yup.object().shape({
 const BookingModal = ({ isOpen, onClose, onSubmitBooking }) => {
   const [slots, setSlots] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState(null);
-  const [statusMessage, setStatusMessage] = useState("");
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
 
   const {
     register,
@@ -31,7 +32,7 @@ const BookingModal = ({ isOpen, onClose, onSubmitBooking }) => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  // Fetch available slots from backend
+  // Fetch available slots
   const fetchSlots = async () => {
     setLoading(true);
     try {
@@ -45,30 +46,25 @@ const BookingModal = ({ isOpen, onClose, onSubmitBooking }) => {
     }
   };
 
-  // When modal opens, fetch slots
   useEffect(() => {
     if (isOpen) {
       fetchSlots();
     }
   }, [isOpen]);
 
-  // Handle form submit
   const onSubmit = async (data) => {
     if (!selectedSlot) {
       setStatusMessage("Please select a time slot.");
       return;
     }
 
-    try {
-      setStatusMessage("Submitting...");
+    setSubmitting(true);
+    setStatusMessage("");
 
-      // Submit booking to parent component (Services.jsx)
+    try {
       await onSubmitBooking({ ...data, slot: selectedSlot, date: selectedDate });
 
-      toast.success(
-        "🎉 Booking Confirmed!\nOur team will get in touch with you shortly regarding your booking."
-      );
-
+      toast.success("🎉 Booking Confirmed! We'll contact you shortly.");
       reset();
       setSelectedSlot(null);
       fetchSlots();
@@ -80,16 +76,28 @@ const BookingModal = ({ isOpen, onClose, onSubmitBooking }) => {
       console.error("❌ Booking failed:", error);
       const msg = error.response?.data?.error || "Booking failed.";
       toast.error(msg, { position: "top-right" });
+    } finally {
+      setSubmitting(false);
     }
   };
 
-  // Handle date selection
   const handleDateChange = (date) => {
     setSelectedDate(date);
     setSelectedSlot(null);
+    setStatusMessage("");
   };
 
+  // Restrict to next 10 days
+  const today = new Date();
+  const maxDate = new Date();
+  maxDate.setDate(today.getDate() + 9); // include today + 9 = 10 days
+
   if (!isOpen) return null;
+
+  const filteredSlots = slots.filter(
+    (slot) =>
+      new Date(slot).toDateString() === selectedDate.toDateString()
+  );
 
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-40 flex items-center justify-center">
@@ -106,7 +114,6 @@ const BookingModal = ({ isOpen, onClose, onSubmitBooking }) => {
           Book a Free Consultation
         </h2>
 
-        {/* Booking Form */}
         {loading ? (
           <div className="text-center text-blue-500">
             Loading available slots...
@@ -154,6 +161,8 @@ const BookingModal = ({ isOpen, onClose, onSubmitBooking }) => {
                 mode="single"
                 selected={selectedDate}
                 onSelect={handleDateChange}
+                fromDate={today}
+                toDate={maxDate}
                 modifiersClassNames={{
                   selected: "bg-blue-500 text-white rounded-full",
                   today: "text-blue-700 font-bold",
@@ -165,19 +174,15 @@ const BookingModal = ({ isOpen, onClose, onSubmitBooking }) => {
             {/* Available Slots */}
             <div>
               <p className="font-medium mb-2 text-gray-800">Available Time Slots:</p>
-              {slots.length > 0 ? (
+              {filteredSlots.length > 0 ? (
                 <SlotGrid
-                  slots={slots.filter(
-                    (slot) =>
-                      new Date(slot).toDateString() ===
-                      selectedDate.toDateString()
-                  )}
+                  slots={filteredSlots}
                   selectedSlot={selectedSlot}
                   onSelect={setSelectedSlot}
                 />
               ) : (
-                <p className="text-gray-500 text-sm">
-                  No slots available for this day.
+                <p className="text-red-500 text-sm">
+                  Sorry, no slots available on this date. Please choose another date.
                 </p>
               )}
             </div>
@@ -185,15 +190,16 @@ const BookingModal = ({ isOpen, onClose, onSubmitBooking }) => {
             <button
               type="submit"
               className="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition duration-300"
+              disabled={submitting}
             >
-              Confirm Booking
+              {submitting ? "Submitting..." : "Confirm Booking"}
             </button>
           </form>
         )}
 
         {/* Status Message */}
         {statusMessage && (
-          <p className="text-center text-sm mt-4 text-gray-600">
+          <p className="text-center text-sm mt-4 text-red-500">
             {statusMessage}
           </p>
         )}
