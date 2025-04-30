@@ -70,7 +70,7 @@ const BookingModal = ({ isOpen, onClose, onSubmitBooking }) => {
       fetchSlots();
 
       setTimeout(() => {
-        onClose();
+        onClose(); // Close the modal after a successful booking
       }, 2500);
     } catch (error) {
       console.error("❌ Booking failed:", error);
@@ -87,10 +87,10 @@ const BookingModal = ({ isOpen, onClose, onSubmitBooking }) => {
     setStatusMessage("");
   };
 
-  // Restrict to next 10 days
+  // Restrict to next 7 days
   const today = new Date();
   const maxDate = new Date();
-  maxDate.setDate(today.getDate() + 9); // include today + 9 = 10 days
+  maxDate.setDate(today.getDate() + 7); // limit to next 7 days
 
   if (!isOpen) return null;
 
