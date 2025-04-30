@@ -52,7 +52,7 @@ const Services = () => {
 
   const handleBookingSubmit = async (formData) => {
     try {
-      await fetch("https://vsac-app-backend.vercel.app/api/book/submit", {
+      await fetch("https://vsac-app-backend.vercel.app/api/book", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
