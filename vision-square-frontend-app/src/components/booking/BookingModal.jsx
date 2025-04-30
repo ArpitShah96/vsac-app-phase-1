@@ -103,7 +103,7 @@ const BookingModal = ({ isOpen, onClose, onSubmitBooking }) => {
         </button>
 
         <h2 className="text-2xl font-semibold mb-4 text-center text-blue-600">
-          Book a Consultation
+          Book a Free Consultation
         </h2>
 
         {/* Booking Form */}

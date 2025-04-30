@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import ServiceCard from "../../components/services/ServiceCard";
+import BookingModal from "../../components/booking/BookingModal"; // ✅ Adjust path if needed
 
 // ✅ Correct Imports from public → assets
 import touristVisaImage from "../../assets/images/TouristVisa.jpg";
@@ -47,11 +48,27 @@ const services = [
 ];
 
 const Services = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleBookingSubmit = async (formData) => {
+    try {
+      await fetch("https://vsac-app-backend.vercel.app/api/book/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+    } catch (error) {
+      console.error("Booking submission failed:", error);
+      throw error;
+    }
+  };
+
   return (
     <section className="py-12 bg-gray-100">
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold text-center mb-10">Our Services</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
           {services.map((service, index) => (
             <ServiceCard
               key={index}
@@ -62,7 +79,23 @@ const Services = () => {
             />
           ))}
         </div>
+
+        <div className="flex justify-center">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-blue-600 text-white font-semibold py-3 px-6 rounded-xl shadow-md hover:bg-blue-700 transition duration-300"
+          >
+            Book a Free Consultation
+          </button>
+        </div>
       </div>
+
+      {/* Booking Modal */}
+      <BookingModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmitBooking={handleBookingSubmit}
+      />
     </section>
   );
 };
